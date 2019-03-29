@@ -96,6 +96,7 @@ func printQuestion(question string) {
 
 func getUserAnswer() (answer string, err error) {
 	_, err = fmt.Scanf("%s", &answer)
+	answer = strings.ToLower(answer)
 	answer = strings.TrimSpace(answer)
 	return
 }

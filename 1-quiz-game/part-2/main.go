@@ -11,7 +11,9 @@ import (
 const defaultTimeout = 30
 const defaultShuffle = false
 const problemsFile = "1-quiz-game/part-2/problems.csv"
-const outputTxt = "\n\n%v correct answers of %v\n"
+
+const beginTxt = "Press enter to start the quiz..."
+const endTxt = "\n\n%v correct answers of %v\n"
 
 func main() {
 	fileNamePtr := flag.String("file", problemsFile, "problems file name")
@@ -24,6 +26,9 @@ func main() {
 
 	answersChannel := make(chan bool)
 	endChannel := make(chan bool)
+
+	fmt.Println(beginTxt)
+	_, _ = fmt.Scanln()
 
 	go timeout.Handler(*timeoutPtr, endChannel)
 	go problems.Handler(*fileNamePtr, *shufflePtr, answersChannel, endChannel)
@@ -44,7 +49,7 @@ func main() {
 }
 
 func terminate(ok bool, correctAnswers, totalAnswers int) {
-	fmt.Printf(outputTxt, correctAnswers, totalAnswers)
+	fmt.Printf(endTxt, correctAnswers, totalAnswers)
 	if ok {
 		os.Exit(0)
 	}
